@@ -12,7 +12,6 @@ async function getCategories() {
         }
 
         const json = await response.json();
-        console.log(json)
         createFilters(json);
     } catch (error) {
         console.error("Une erreur es survenue : " + error.message);
@@ -22,6 +21,16 @@ async function getCategories() {
 
 //Création des boutons de filtre pour chaques catégorie
 function createFilters(categories) {
+    //Creation du bouton "Tous"
+    let button = document.createElement('button');
+    button.classList.add('gallery-filter');
+    button.classList.add('selected-filter');
+    button.innerText = "Tous";
+    button.setAttribute("data-categorie-id", "-1")
+    galleryContenair.appendChild(button);
+
+    button.addEventListener("click", (event) => filter(event, button.getAttribute("data-categorie-id")));
+
     for(let i=0; i < categories.length; i++) {
         let button = document.createElement('button');
         button.classList.add('gallery-filter');
@@ -29,6 +38,7 @@ function createFilters(categories) {
         button.setAttribute("data-id", categories[i].id);
 
         galleryContenair.appendChild(button);
+        button.addEventListener("click", (event) => filter(event, categories[i].id));
     }
 }
 
@@ -43,7 +53,6 @@ async function getProjects() {
 
         const json = await response.json();
         createProjects(json);
-        console.log(json);
     } catch (error) {
         console.error("Une erreur es survenue lors de la récupération des projets : " + error.message);
     }
@@ -54,6 +63,8 @@ function createProjects(projects) {
     for(let i=0; i < projects.length; i++) {
         const figure = document.createElement("figure");  
         figure.setAttribute('data-categorie', projects[i].category.name);
+        figure.setAttribute('data-categorie-id', projects[i].categoryId)
+        figure.classList.add('gallery-project');
 
         const img = document.createElement('img');
         img.src = projects[i].imageUrl;
@@ -64,6 +75,31 @@ function createProjects(projects) {
         projectsContenair.appendChild(figure);
         figure.appendChild(img);
         figure.appendChild(figcaption);
+    }
+}
+
+//Filtre les projets de la galerie lors du clic sur un bouton de filtre
+function filter(event, filter) {
+    let galleryProjects = document.querySelectorAll('.gallery-project');
+    document.querySelector('.selected-filter').classList.remove('selected-filter'); //On retire le style de selection du bouton de filtre selectionner actuellement
+
+    if(filter >= 0) { //Si l'id du filtre n'es pas -1 alors on affiche les projets correspondant au filtre, sinon on affiche tous les projets
+        event.target.classList.add('selected-filter'); //On ajoute la class selected-filter au bouton ciblé lors du clic afin de lui appliquer le bon style
+
+        for(let i =0; i < galleryProjects.length; i++) { //On désaffiche tous les projets 
+            galleryProjects[i].style.display = "none";
+        }
+
+        let filtredGalleryProjects = document.querySelectorAll('figure[data-categorie-id="' + filter + '"]'); //On affiche uniquement les projets qui contienne le data id correspondant au filtre
+        for(let i =0; i < filtredGalleryProjects.length; i++) {
+            filtredGalleryProjects[i].style.display = "block";
+        }
+    } else {
+        document.querySelector('button[data-categorie-id="-1"]').classList.add('selected-filter'); //Affiche tous les projets
+
+        for(let i =0; i < galleryProjects.length; i++) {
+            galleryProjects[i].style.display = "block";
+        }
     }
 }
 
