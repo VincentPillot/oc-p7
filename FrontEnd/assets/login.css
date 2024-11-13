@@ -1,0 +1,15 @@
+@import url("style.css");
+
+h2 {
+    color: rgba(29, 97, 84, 1);
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    width: 350px;
+}
