@@ -154,6 +154,13 @@ li:hover {
 	border-radius: 60px;
 	text-align: center;
 	cursor: pointer;
+	transition: background-color .5s, border-color .5s, color .5s;
+}
+
+.gallery-filter:hover {
+	background-color: rgba(14, 47, 40, 1);
+	color: white;
+	border-color: rgba(14, 47, 40, 1);
 }
 
 .gallery-filters-contenair > .selected-filter {
