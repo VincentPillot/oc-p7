@@ -1,15 +1,43 @@
 @import url("style.css");
 
+#login {
+	width: 40%;
+    margin: auto;
+}
+
+#login > * {
+	text-align: center;
+}
+
+#login h2{
+	margin-bottom: 20px;
+}
+
+#login form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#login label {
+	margin: 2em 0 1em 0;
+}
+
 h2 {
     color: rgba(29, 97, 84, 1);
 }
 
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-input {
-    width: 350px;
+input[type="submit"]:hover {
+    background-color: rgba(14, 47, 40, 1);
+	color: white;
+	border-color: rgba(14, 47, 40, 1);
+    cursor: pointer;
 }
