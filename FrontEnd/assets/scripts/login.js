@@ -1,16 +1,36 @@
 const loginForm = document.querySelector("form");
 
 loginForm.addEventListener("submit", (e) => {
-    console.log(e.target[0].value)
+    e.preventDefault();
     fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json" // Indique que le corps de la requête est en JSON
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             email: e.target[0].value,
             password: e.target[1].value
         })
-    })
-    e.preventDefault();
+    }).then(response => {
+        if(!response.ok) {
+            throw new Error("Erreur dans la réponse");
+        }
+        return response.json();
+    }).then(data => {
+        console.log("data :", data);
+        logIn(200, data);
+    }).catch(error => {
+        console.error("Erreur lors de la requête :", error);
+    });
 });
+
+
+function logIn(status, data) {
+    if(status != 200) {
+        console.error(status + " : " + data);
+    } else {
+        sessionStorage.setItem("userId", data.userId);
+        sessionStorage.setItem("token", data.token);
+        window.location.replace("../index.html");
+    }
+}
