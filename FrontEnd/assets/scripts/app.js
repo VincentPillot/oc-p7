@@ -1,5 +1,6 @@
 const editorModeBanner = document.querySelector('.editor-mode-banner');
 const navBarLogBtn = document.querySelector('.navbar-log-btn > a');
+const portflioEditBtn = document.querySelector('.edit-portfolio-btn');
 const galleryFilter = document.querySelector('.gallery-filters-contenair')
 
 function isUserLoggedHandler() {
@@ -23,6 +24,9 @@ function isUserLoggedHandler() {
         //Affichage & gestion du bouton de déconnexion
         navBarLogBtn.innerText = "logout";
         navBarLogBtn.href = "#";
+
+        //Affichage du bouton d'edition du portfolio
+        portflioEditBtn.style.display = "block";
             
         //Display none des filtres du portfolio
         galleryFilter.style.display = "none"  
@@ -35,6 +39,9 @@ function isUserLoggedHandler() {
         //Bouton de login
         navBarLogBtn.innerText = "login"; 
         navBarLogBtn.href = "./pages/login.html";
+
+        //On cache le bouton d'edition du portfolio
+        portflioEditBtn.style.display = "none";
 
         //On affiche les filtres du portfolio
         galleryFilter.style.display = "flex" 
