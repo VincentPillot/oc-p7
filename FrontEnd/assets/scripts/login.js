@@ -1,4 +1,5 @@
 const loginForm = document.querySelector("form");
+const errorMsg = document.querySelector('.form-error-msg ');
 
 loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -13,6 +14,9 @@ loginForm.addEventListener("submit", (e) => {
         })
     }).then(response => {
         if(!response.ok) {
+            errorMsg.style.display = "block";
+            errorMsg.innerText = "Erreur dans l'indentifiant ou le mot de passe.";
+            console.log(response);
             throw new Error("Erreur dans la réponse");
         }
         return response.json();
