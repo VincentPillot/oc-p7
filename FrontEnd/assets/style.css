@@ -53,6 +53,18 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+.editor-mode-banner {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+	height: 60px;
+	background-color: black;
+	color: white;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
