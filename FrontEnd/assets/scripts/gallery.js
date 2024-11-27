@@ -1,3 +1,7 @@
+import { getAllWorks } from "./api.js";
+// createProjects(getAllWorks());
+
+
 const galleryContenair = document.querySelector('.gallery-filters-contenair');
 const projectsContenair = document.querySelector('.gallery')
 
@@ -42,24 +46,11 @@ function createFilters(categories) {
     }
 }
 
-//Récupérer tous les projets
-async function getProjects() {
-    const url = "http://localhost:5678/api/works";
-    try {
-        const response = await fetch(url);
-        if(!response.ok) {
-            throw new Error ('Status de la réponse : ' + response.status);
-        }
-
-        const json = await response.json();
-        createProjects(json);
-    } catch (error) {
-        console.error("Une erreur es survenue lors de la récupération des projets : " + error.message);
-    }
-}
-
 //Creation et affichage de tous les projets
-function createProjects(projects) {
+export async function createProjects() {
+    projectsContenair.innerHTML = "";
+    let projects = await getAllWorks(); //Récupération des projets depuis le fichier api.js
+    
     for(let i=0; i < projects.length; i++) {
         const figure = document.createElement("figure");  
         figure.setAttribute('data-categorie', projects[i].category.name);
@@ -76,7 +67,7 @@ function createProjects(projects) {
         figure.appendChild(img);
         figure.appendChild(figcaption);
     }
-}
+};
 
 //Filtre les projets de la galerie lors du clic sur un bouton de filtre
 function filter(event, filter) {
@@ -104,4 +95,4 @@ function filter(event, filter) {
 }
 
 getCategories();
-getProjects();
+createProjects();
