@@ -4,15 +4,15 @@ const portflioEditBtn = document.querySelector('.edit-portfolio-btn');
 const galleryFilter = document.querySelector('.gallery-filters-contenair')
 
 function isUserLoggedHandler() {
-    if(sessionStorage.getItem("token")) { 
+    if(localStorage.getItem("token")) { 
         //Si l'user es connecter :
 
         //Ajout du listener pour la déconnexion
         navBarLogBtn.addEventListener('click', (e) => {
-            if(sessionStorage.getItem("token")) {
+            if(localStorage.getItem("token")) {
                 e.preventDefault();
-                sessionStorage.removeItem("token");
-                sessionStorage.removeItem("userId");
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
 
                 isUserLoggedHandler();
             }
