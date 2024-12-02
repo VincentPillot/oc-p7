@@ -2,6 +2,7 @@ import {getAllWorks, deleteWork, createWork} from "./api.js";
 import { createProjects } from "./gallery.js";
 
 const closeBtn = document.querySelector(".modal-close-btn")
+const openModalBtn = document.querySelector(".edit-portfolio-btn");
 const modalContenair = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 
@@ -18,6 +19,9 @@ const formSubmitBtn = document.querySelector(".submit-btn");
 
 //Create project variable
 const modalCreateProjectScreen = document.querySelector(".modal-upload-project-screen");
+
+//Modal open listener
+openModalBtn.addEventListener("click", openModal);
 
 //Modal closer listeners
 closeBtn.addEventListener("click", closeModal);
@@ -45,6 +49,11 @@ modalAddImgBtn.addEventListener("click", nextScreen);
 function closeModal() {
     modalContenair.style.display = "none";
     overlay.style.display = "none";
+}
+
+function openModal() {
+    modalContenair.style.display = "flex";
+    overlay.style.display = "block";
 }
 
 function checkIfFormIsComplete() {
