@@ -90,6 +90,24 @@ body {
 	font-weight: 400;
 }
 
+.create-project-preview-img {
+    display: none; /* Cache l'image par défaut */
+    max-width: 100%; /* Ajuste la largeur de l'image */
+    max-height: 150px; /* Limite la hauteur pour s'adapter à la modal */
+    margin-bottom: 10px; /* Ajoute un espacement pour l'esthétique */
+    object-fit: cover; /* Ajuste l'image pour qu'elle ne déborde pas */
+    border-radius: 5px; /* Ajoute des coins arrondis pour l'image */
+}
+
+
+.modal-previous-screen-btn {
+	position: absolute;
+	top: 26px;
+	left: 30px;
+	font-size: 24px;
+	cursor: pointer;
+}
+
 .modal-close-btn {
 	position: absolute;
 	top: 26px;
