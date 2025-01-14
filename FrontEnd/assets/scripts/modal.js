@@ -2,6 +2,7 @@ import {getAllWorks, deleteWork, createWork} from "./api.js";
 import { createProjects } from "./gallery.js";
 
 const closeBtn = document.querySelector(".modal-close-btn")
+const previousScreenBtn = document.querySelector(".modal-previous-screen-btn ");
 const openModalBtn = document.querySelector(".edit-portfolio-btn");
 const modalContenair = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
@@ -20,6 +21,8 @@ const formSubmitBtn = document.querySelector(".submit-btn");
 //Create project variable
 const modalCreateProjectScreen = document.querySelector(".modal-upload-project-screen");
 
+
+/********** LISTENERS ***************/
 //Modal open listener
 openModalBtn.addEventListener("click", openModal);
 
@@ -39,12 +42,22 @@ form.addEventListener("submit", async function(e){
         const formData = new FormData(form);
         await createWork(formData);
         form.reset();
+        // Réinitialise la prévisualisation de l'image
+        const previewImg = document.querySelector(".create-project-preview-img");
+        previewImg.src = ""; // Vide la source de l'image
+        previewImg.style.display = "none"; // Cache l'image
+        document.querySelector(".img-input-infos").style.display = "flex"; // Restaure le texte d'information
+
+        alert(`Le projet "${formData.get("title")}" a été créé avec succès.`);
         createModalProjects();
         createProjects();
     }
 })
 
+previousScreenBtn.addEventListener("click", previousScreen);
 modalAddImgBtn.addEventListener("click", nextScreen);
+
+/*******************************************/
 
 function closeModal() {
     modalContenair.style.display = "none";
@@ -54,7 +67,40 @@ function closeModal() {
 function openModal() {
     modalContenair.style.display = "flex";
     overlay.style.display = "block";
+
+    modalCreateProjectScreen.style.display = "none";
+    modalGalleryScreen.style.display = "flex";
+
+    modalContenair.setAttribute("data-screen", "gallery");
 }
+
+// Gestion de la prévisualisation de l'image uploadée
+formImg.addEventListener("change", function () {
+    const previewImg = document.querySelector(".create-project-preview-img");
+    const imgInputInfos = document.querySelector(".img-input-infos");
+
+    if (this.files && this.files[0]) {
+        const file = this.files[0];
+
+        // Vérification du type de fichier
+        if (file.type.startsWith("image/")) {
+            const imageUrl = URL.createObjectURL(file); // Crée une URL temporaire pour l'image
+            previewImg.src = imageUrl; // Définit la source de l'image prévisualisée
+            previewImg.style.display = "block"; // Affiche l'image
+
+            // Masque les instructions "Ajouter photo" si l'image est sélectionnée
+            imgInputInfos.style.display = "none";
+        } else {
+            alert("Veuillez sélectionner un fichier image valide (jpg, png).");
+            this.value = ""; // Réinitialise le champ de fichier
+        }
+    } else {
+        previewImg.src = ""; // Supprime la prévisualisation si aucun fichier sélectionné
+        previewImg.style.display = "none"; // Cache l'image
+        imgInputInfos.style.display = "flex"; // Réaffiche les instructions
+    }
+});
+
 
 function checkIfFormIsComplete() {
     if(selectCategories.value !== "-1") {
@@ -67,6 +113,15 @@ function checkIfFormIsComplete() {
     }
     formSubmitBtn.classList.remove("submit-btn-ready");
     return false;
+}
+
+function previousScreen() {
+    if(modalContenair.getAttribute("data-screen") == "form") {
+        modalCreateProjectScreen.style.display = "none";
+        modalGalleryScreen.style.display = "flex";
+    }
+
+    modalContenair.setAttribute("data-screen", "gallery");
 }
 
 function nextScreen() {
@@ -101,7 +156,6 @@ async function createModalProjects() {
         div.appendChild(img);  
     }
 }
-createModalProjects();
 
 async function deleteProject(id) {
     await deleteWork(id);
@@ -126,7 +180,6 @@ async function getCategories() {
 }
 
 function createCategoriesOptions(data) {
-    console.log(data);
     for(let i=0; i < data.length; i++) {
         let option = document.createElement("option");
         option.value = data[i].id;
@@ -136,4 +189,5 @@ function createCategoriesOptions(data) {
     }
 }
 
-getCategories()
+getCategories();
+createModalProjects();
