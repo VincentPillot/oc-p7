@@ -39,7 +39,7 @@ function createFilters(categories) {
         let button = document.createElement('button');
         button.classList.add('gallery-filter');
         button.innerText = categories[i].name;
-        button.setAttribute("data-id", categories[i].id);
+        button.setAttribute("data-categorie-id", categories[i].id);
 
         galleryContenair.appendChild(button);
         button.addEventListener("click", (event) => filter(event, categories[i].id));
