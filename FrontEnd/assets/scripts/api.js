@@ -44,6 +44,22 @@ export async function getAllWorks() {
     }
 }
 
+//Récupérer toute les catégories
+export async function getCategories() {
+    const url = "http://localhost:5678/api/categories";
+    try {
+        const response = await fetch(url);
+        if(!response.ok) {
+            throw new Error ('Status de la réponse : ' + response.status);
+        }
+
+        const json = await response.json();
+        return json
+    } catch (error) {
+        console.error("Une erreur es survenue : " + error.message);
+        throw error;
+    }
+}
 
 //Permet de supprimer un projet
 export async function deleteWork(id) {
