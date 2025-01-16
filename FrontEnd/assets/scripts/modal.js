@@ -1,4 +1,4 @@
-import {getAllWorks, deleteWork, createWork} from "./api.js";
+import {getAllWorks, deleteWork, createWork, getCategories} from "./api.js";
 import { createProjects } from "./gallery.js";
 
 const closeBtn = document.querySelector(".modal-close-btn")
@@ -164,19 +164,9 @@ async function deleteProject(id) {
     createProjects();
 }
 
-async function getCategories() {
-    const url = "http://localhost:5678/api/categories";
-    try {
-        const response = await fetch(url);
-        if(!response.ok) {
-            throw new Error ('Status de la réponse : ' + response.status);
-        }
-
-        const json = await response.json();
-        createCategoriesOptions(json);
-    } catch (error) {
-        console.error("Une erreur es survenue : " + error.message);
-    }
+async function getAllCategories() {
+    let json = await getCategories();
+    createCategoriesOptions(json);
 }
 
 function createCategoriesOptions(data) {
@@ -189,5 +179,5 @@ function createCategoriesOptions(data) {
     }
 }
 
-getCategories();
+getAllCategories();
 createModalProjects();
