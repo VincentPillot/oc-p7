@@ -1,4 +1,4 @@
-import { getAllWorks } from "./api.js";
+import { getAllWorks, getCategories } from "./api.js";
 // createProjects(getAllWorks());
 
 
@@ -6,20 +6,10 @@ const galleryContenair = document.querySelector('.gallery-filters-contenair');
 const projectsContenair = document.querySelector('.gallery')
 
 
-//Récupérer toute les catégories
-async function getCategories() {
-    const url = "http://localhost:5678/api/categories";
-    try {
-        const response = await fetch(url);
-        if(!response.ok) {
-            throw new Error ('Status de la réponse : ' + response.status);
-        }
-
-        const json = await response.json();
-        createFilters(json);
-    } catch (error) {
-        console.error("Une erreur es survenue : " + error.message);
-    }
+//Récupéree toute les catégories via l'api et appelle la fonction pour créer les filtres
+async function getAllCategories() {
+    let json = await getCategories();
+    createFilters(json);
 }
 
 
@@ -94,5 +84,5 @@ function filter(event, filter) {
     }
 }
 
-getCategories();
+getAllCategories();
 createProjects();
